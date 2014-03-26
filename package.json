@@ -2,7 +2,7 @@
   "name": "comparify",
   "version": "0.0.0",
   "description": "Check if an object meets criteria using a simple syntax.",
-  "main": "comparify.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "mocha"
   },
