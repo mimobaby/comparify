@@ -1,27 +1,27 @@
 {
   "name": "comparify",
+  "description": "Simple criteria checking, so you can test a subset of an object's properties.",
   "version": "0.0.0",
-  "description": "Check if an object meets criteria using a simple syntax.",
-  "main": "lib/index.js",
-  "scripts": {
-    "test": "mocha"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mimobaby/comparify"
-  },
+  "author": "Carson Darling <cdarling@restdevices.com>",
   "keywords": [
     "compare",
     "search",
     "criteria"
   ],
-  "author": "Carson Darling",
-  "license": "MIT",
+  "repository": "git://github.com/mimobaby/comparify",
   "bugs": {
     "url": "https://github.com/mimobaby/comparify/issues"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
   },
   "devDependencies": {
     "mocha": "~1.18.2",
     "should": "~3.2.0-beta1"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.8"
   }
 }
