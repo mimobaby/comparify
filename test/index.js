@@ -132,4 +132,29 @@ describe('Comparify', function() {
     });
   });
 
+  describe('README.md demo examples', function() {
+    var data = {
+      timestamp: 1395877795067,
+      deviceID: '765CBA',
+      recipient: {
+        name: 'Thomas'
+      },
+      uses: ['making pancakes', 'running', 'hugs']
+    };
+
+    it('shouldn\'t lie', function() {
+      (comparify(data, {deviceID: '765CBA'}) === true).should.be.true;
+      (comparify(data, {deviceID: 'ABC123'}) === false).should.be.true;
+
+      (comparify(data, {'recipient.name': 'Thomas'}) === true).should.be.true;
+      (comparify(data, {recipient: {name: 'Thomas'}}) === true).should.be.true;
+
+      (comparify(data, {uses: 'running'}) === true).should.be.true;
+      (comparify(data, {uses: 'skiing'}) === false).should.be.true;
+
+      (comparify(data, {uses: ['running', 'hugs']}) === true).should.be.true;
+      (comparify(data, {uses: ['running', 'skiing']}) === false).should.be.true;
+    });
+  });
+
 });
