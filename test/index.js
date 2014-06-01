@@ -4,7 +4,7 @@ describe('Comparify', function() {
 
   var object = {
     key1: 1,
-    key2: 2,
+    key2: "2",
     keyNull: null,
     deep: {
       key3: 3
@@ -13,12 +13,13 @@ describe('Comparify', function() {
       value: {
         key4: 4
       }
-    }
+    },
+    many: [1, '2']
   };
 
   it('should check simple keys', function() {
     comparify(object, {key1: 1}).should.be.true;
-    comparify(object, {key1: 0}).should.be.false;
+    comparify(object, {key1: 0}, true).should.be.false;
     comparify(object, {keyNull: null}).should.be.true;
     comparify(object, {keyNull: 1}).should.be.false;
   });
@@ -31,12 +32,12 @@ describe('Comparify', function() {
   it('should check multiple keys', function() {
     comparify(object, {
       'key1': 1,
-      key2: 2
+      key2: '2'
     }).should.be.true;
 
     comparify(object, {
       'key1': 1,
-      key2: 3
+      key2: '3'
     }).should.be.false;
   });
 
@@ -62,10 +63,6 @@ describe('Comparify', function() {
     }).should.be.false;
   });
 
-  it('should always pass the same object', function() {
-    comparify(object, object).should.be.true;
-  });
-
   it('should handle mixed object and dot-notation', function() {
     comparify(object, {
       'deep.key3': 3,
@@ -86,7 +83,7 @@ describe('Comparify', function() {
   it('should handle the kitchen sink', function() {
     comparify(object, {
       key1: 1,
-      'key2': 2,
+      'key2': '2',
       keyNull: null,
       deep: {key3: 3},
       'deep.key3': 3,
@@ -96,6 +93,43 @@ describe('Comparify', function() {
       },
       'veryDeep.value.key4': 4
     }).should.be.true;
+  });
+
+  it('should handle arrays as values', function() {
+    comparify(object, {'many': 1}).should.be.true;
+    comparify(object, {'many': '2'}).should.be.true;
+    comparify(object, {'many': 3}).should.be.false;
+  });
+
+  it('should handle arrays as criterias', function() {
+    comparify(object, {many: [1, '2']}).should.be.true;
+    comparify(object, {many: ['1', 2]}).should.be.false;
+  });
+
+  describe('Example use test cases', function() {
+
+    var email = {
+      from: 'tester@example.com',
+      to: ['myfriend@example.com', 'boss@example.com'],
+      subject: 'My Email',
+      body: 'Hello,\nI will be on vacation for the rest of the year.\n\nThanks!'
+    };
+
+    it('should check FROM address', function() {
+      comparify(email, {from: 'tester@example.com'}).should.be.true;
+      comparify(email, {from: 'other@example.com'}).should.be.false;
+    });
+
+    it('should check TO addresses', function() {
+      comparify(email, {to: 'myfriend@example.com'}).should.be.true;
+      comparify(email, {to: 'boss@example.com'}).should.be.true;
+      comparify(email, {to: 'other@example.com'}).should.be.false;
+    });
+
+    it('should check multiple TO addresses', function() {
+      comparify(email, {to: ['myfriend@example.com', 'boss@example.com']}).should.be.true;
+      comparify(email, {to: ['myfriend@example.com', 'you@example.com']}).should.be.false;
+    });
   });
 
 });

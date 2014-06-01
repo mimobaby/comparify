@@ -43,7 +43,9 @@ describe('util', function() {
 
     var object = {
         simple: 0,
+        1: 1,
         deep: {
+          2: 2,
           key: "value",
           deeper: {
             woah: "why?"
@@ -51,8 +53,13 @@ describe('util', function() {
         }
     };
 
-    it('should get simple values', function() {
+    it('should get simple values, including falsey ones', function() {
       util.getKey(object, 'simple').should.equal(0);
+    });
+
+    it('should allow non-string keys', function() {
+      util.getKey(object, 1).should.equal(1);
+      util.getKey(object, "deep.2").should.equal(2);
     });
 
     it('should get nested values', function() {
