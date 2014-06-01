@@ -95,6 +95,11 @@ describe('Comparify', function() {
     }).should.be.true;
   });
 
+  it('should use regexes', function() {
+    comparify(object, {'key2': /2/}).should.be.true;
+    comparify(object, {'key2': /3/}).should.be.false;
+  });
+
   it('should handle arrays as values', function() {
     comparify(object, {'many': 1}).should.be.true;
     comparify(object, {'many': '2'}).should.be.true;
@@ -154,6 +159,8 @@ describe('Comparify', function() {
 
       (comparify(data, {uses: ['running', 'hugs']}) === true).should.be.true;
       (comparify(data, {uses: ['running', 'skiing']}) === false).should.be.true;
+
+      (comparify(data, {'recipient.name': /omas/}) === true).should.be.true;
     });
   });
 
